@@ -1577,6 +1577,18 @@
   flex-shrink: 0;
 }
 
+.llm-dos-block-tag {
+  flex-shrink: 0;
+  margin-right: 0.35em;
+  color: #f0c040;
+  font: inherit;
+  user-select: none;
+}
+
+.llm-dos-prompt-line.is-blocked .llm-dos-input {
+  color: #d8d8d8;
+}
+
 .llm-dos-user-text {
   color: #fff;
 }
@@ -1596,16 +1608,10 @@
 
 .llm-dos-input-wrap {
   position: relative;
-  display: inline-flex;
-  align-items: baseline;
   flex: 1;
   min-width: 0;
-}
-
-.llm-dos-input-wrap::after {
-  content: "";
-  flex: 1;
-  min-height: 1.45em;
+  display: flex;
+  align-items: baseline;
 }
 
 .llm-dos-input-measure {
@@ -1619,8 +1625,9 @@
 }
 
 .llm-dos-input {
-  width: auto;
+  flex: 1;
   min-width: 0;
+  width: 100%;
   margin: 0;
   padding: 0;
   border: none;
@@ -1630,7 +1637,17 @@
   font: inherit;
   line-height: inherit;
   caret-color: transparent;
-  flex: 0 0 auto;
+}
+
+.llm-dos-cursor-prompt {
+  position: absolute;
+  bottom: 0.1em;
+  margin-left: 1px;
+  pointer-events: none;
+}
+
+.llm-dos-prompt-line:focus-within .llm-dos-cursor-prompt {
+  animation: llm-dos-cursor-blink 1s step-end infinite;
 }
 
 .llm-dos-input:disabled {
@@ -1663,12 +1680,11 @@
   background: #c0c0c0;
   vertical-align: baseline;
   transform: translateY(2px);
-  animation: llm-dos-cursor-blink 1s step-end infinite;
 }
 
-.llm-dos-cursor-inline {
-  flex-shrink: 0;
-  margin-left: 0.2em;
+.llm-typewriter .llm-dos-cursor,
+.llm-dos-loading-cursor .llm-dos-cursor {
+  animation: llm-dos-cursor-blink 1s step-end infinite;
 }
 
 .llm-dos-line.is-loading {
