@@ -23,6 +23,14 @@
   --checkbox-size: 16px;
   --option-button-size: 14px;
   --progress-fill: #000080;
+
+  /* 98.css 对齐 token（滚动条等，见 jdan/98.css style.css） */
+  --button-face: #dfdfdf;
+  --button-highlight: #fefefe;
+  --button-shadow: #888c8f;
+  --window-frame: #050608;
+  --border-raised-outer: inset -1px -1px var(--window-frame), inset 1px 1px var(--button-highlight);
+  --border-raised-inner: inset -2px -2px var(--button-shadow), inset 2px 2px var(--button-face);
 }
 
 * {
@@ -111,7 +119,7 @@
   font-size: 14px;
   color: var(--muted-foreground);
   box-sizing: border-box;
-  line-height: 1;
+  line-height: 1.2;
   appearance: none;
   -webkit-appearance: none;
   border-top: 2px solid var(--border-color-muted);
@@ -121,6 +129,67 @@
   box-shadow:
     inset 1px 1px 0 1px #0a0a0a,
     inset -1px -1px 0 1px #dfdfdf;
+}
+
+.border-inverted:disabled,
+.border-inverted:read-only,
+.textbox-textarea:disabled,
+.textbox-textarea:read-only {
+  background: var(--primary);
+  color: var(--border-color-muted);
+  cursor: default;
+}
+
+.textbox-textarea {
+  width: 100%;
+  min-height: 96px;
+  padding: 4px 8px;
+  resize: vertical;
+  line-height: 1.4;
+}
+
+.textbox-field.field-row > label {
+  flex-shrink: 0;
+  min-width: 72px;
+  font-size: 14px;
+  font-weight: 400;
+  user-select: none;
+}
+
+.textbox-field.field-row > .textbox-input,
+.textbox-field.field-row > .border-inverted {
+  flex: 1;
+  width: auto;
+  min-width: 0;
+  height: 32px;
+  padding: 0 8px;
+}
+
+.textbox-field.field-row-stacked > label {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  user-select: none;
+}
+
+.textbox-field.field-row-stacked > .textbox-input,
+.textbox-field.field-row-stacked > .border-inverted {
+  width: 100%;
+  height: 32px;
+  padding: 0 8px;
+}
+
+.textbox-field.field-row-stacked > .textbox-textarea {
+  height: auto;
+}
+
+.textbox-demo-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.textbox-field + .textbox-field {
+  margin-top: 8px;
 }
 
 .card-border {
@@ -279,6 +348,64 @@
   min-width: 0;
 }
 
+/* ── scrollbars（对齐 98.css style.css）── */
+
+.win98-app ::-webkit-scrollbar {
+  width: 16px;
+}
+
+.win98-app ::-webkit-scrollbar:horizontal {
+  height: 17px;
+}
+
+.win98-app ::-webkit-scrollbar-corner {
+  background: var(--button-face);
+}
+
+.win98-app ::-webkit-scrollbar-track {
+  background-image: url("/icons/98css/scrollbar-background.svg");
+}
+
+.win98-app ::-webkit-scrollbar-thumb {
+  background-color: var(--button-face);
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+}
+
+.win98-app ::-webkit-scrollbar-button:horizontal:start:decrement,
+.win98-app ::-webkit-scrollbar-button:horizontal:end:increment,
+.win98-app ::-webkit-scrollbar-button:vertical:start:decrement,
+.win98-app ::-webkit-scrollbar-button:vertical:end:increment {
+  display: block;
+}
+
+/* flex/grid 布局下隐藏 WebKit 重复箭头（98.css #144） */
+.win98-app ::-webkit-scrollbar-button:vertical:start:increment,
+.win98-app ::-webkit-scrollbar-button:vertical:end:decrement,
+.win98-app ::-webkit-scrollbar-button:horizontal:start:increment,
+.win98-app ::-webkit-scrollbar-button:horizontal:end:decrement {
+  display: none;
+}
+
+.win98-app ::-webkit-scrollbar-button:vertical:start {
+  height: 17px;
+  background-image: url("/icons/98css/button-up.svg");
+}
+
+.win98-app ::-webkit-scrollbar-button:vertical:end {
+  height: 17px;
+  background-image: url("/icons/98css/button-down.svg");
+}
+
+.win98-app ::-webkit-scrollbar-button:horizontal:start {
+  width: 16px;
+  background-image: url("/icons/98css/button-left.svg");
+}
+
+.win98-app ::-webkit-scrollbar-button:horizontal:end {
+  width: 16px;
+  background-image: url("/icons/98css/button-right.svg");
+}
+
 /* ── table ── */
 
 .table-wrap {
@@ -312,11 +439,16 @@
 
 .send-address,
 .group-box > .border-inverted,
-.group-box .border-inverted {
+.group-box .border-inverted:not(.textbox-textarea) {
   width: 100%;
   height: 32px;
   padding: 0 8px;
   box-sizing: border-box;
+}
+
+.group-box .textbox-textarea {
+  width: 100%;
+  height: auto;
 }
 
 .button-demo-row {
@@ -797,6 +929,35 @@
   margin-top: 8px;
 }
 
+.table-pagination {
+  margin-top: 8px;
+}
+
+.table-pagination-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.table-pagination-btn {
+  min-width: 32px;
+  width: 32px;
+  height: 28px;
+  min-height: 28px;
+  padding: 0;
+  font-size: 14px;
+}
+
+.table-pagination-status {
+  min-width: 140px;
+  padding: 0 8px;
+  font-size: 13px;
+  text-align: center;
+  white-space: nowrap;
+}
+
 .view-more .border-btn {
   height: 28px;
   padding: 0 16px;
@@ -873,6 +1034,7 @@
   cursor: pointer;
 }
 
+.field-affix-column,
 .select-box-icon {
   width: 30px;
   min-width: 30px;
@@ -893,6 +1055,115 @@
   justify-content: center;
   font-size: 10px;
   color: #333;
+  background: var(--primary);
+}
+
+.select-box-icon {
+  line-height: 1.05;
+  user-select: none;
+}
+
+/* ── number box（右侧 ▲▼ 参考 select-box-icon）── */
+
+.number-box {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  height: 32px;
+  min-height: 32px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  background: #fff;
+  border-top: 2px solid var(--border-color-muted);
+  border-left: 2px solid var(--border-color-muted);
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  box-shadow:
+    inset 1px 1px 0 1px #0a0a0a,
+    inset -1px -1px 0 1px #dfdfdf;
+}
+
+.number-box.is-disabled {
+  opacity: 0.85;
+}
+
+.number-box-input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 0 8px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--muted-foreground);
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.number-box-input::-webkit-outer-spin-button,
+.number-box-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.number-box-input:disabled {
+  color: var(--border-color-muted);
+  cursor: not-allowed;
+}
+
+.number-box-spin.field-affix-column {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 0;
+  font-size: 8px;
+  line-height: 1;
+}
+
+.number-box-spin-btn {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: var(--primary);
+  color: #333;
+  cursor: pointer;
+  font: inherit;
+  font-size: 8px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    inset 0 1px 0 0 var(--box-shadow-light),
+    inset 1px 0 0 0 var(--border-color-light);
+}
+
+.number-box-spin-btn:first-child {
+  border-bottom: 1px solid var(--border-color-muted);
+}
+
+.number-box-spin-btn:active:not(:disabled) {
+  box-shadow:
+    inset 0 1px 0 0 var(--box-shadow-muted),
+    inset 1px 0 0 0 var(--border-color-light);
+}
+
+.number-box-spin-btn:disabled {
+  color: var(--border-color-muted);
+  cursor: not-allowed;
+}
+
+.textbox-field.field-row-stacked > .number-box,
+.textbox-field.field-row > .number-box {
+  width: 100%;
+}
+
+.group-box .number-box {
+  width: 100%;
 }
 
 .select-dropdown-clip {
@@ -1250,4 +1521,173 @@
   height: 32px;
   padding: 0 16px;
   font-weight: 400;
+}
+
+/* ── DOS LLM Terminal ── */
+
+.llm-dos-terminal {
+  display: flex;
+  flex-direction: column;
+  min-height: 280px;
+  max-height: min(480px, 65vh);
+  background: #000;
+  color: #c0c0c0;
+  font-family: var(--font-mono), "Courier New", monospace;
+  font-size: 14px;
+  line-height: 1.45;
+  border-top: 1.75px solid var(--border-color-muted);
+  border-left: 1.75px solid var(--border-color-muted);
+  border-right: 1.75px solid var(--border-color-light);
+  border-bottom: 1.75px solid var(--border-color-light);
+  box-shadow:
+    inset 1px 1px 0 var(--box-shadow-dark),
+    inset -1px -1px 0 var(--box-shadow-light);
+  overflow: hidden;
+}
+
+.llm-dos-screen {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 10px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.llm-dos-header {
+  margin-bottom: 12px;
+  color: #aaa;
+  font-size: 13px;
+}
+
+.llm-dos-line {
+  margin-bottom: 8px;
+}
+
+.llm-dos-line.is-user {
+  color: #fff;
+}
+
+.llm-dos-line.is-assistant {
+  color: #c0c0c0;
+}
+
+.llm-dos-prefix {
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.llm-dos-user-text {
+  color: #fff;
+}
+
+.llm-dos-composer {
+  margin-top: 8px;
+}
+
+.llm-dos-prompt-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  width: 100%;
+  min-height: 1.45em;
+  cursor: text;
+}
+
+.llm-dos-input-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  flex: 1;
+  min-width: 0;
+}
+
+.llm-dos-input-wrap::after {
+  content: "";
+  flex: 1;
+  min-height: 1.45em;
+}
+
+.llm-dos-input-measure {
+  position: absolute;
+  visibility: hidden;
+  white-space: pre;
+  pointer-events: none;
+  height: 0;
+  overflow: hidden;
+  font: inherit;
+}
+
+.llm-dos-input {
+  width: auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  line-height: inherit;
+  caret-color: transparent;
+  flex: 0 0 auto;
+}
+
+.llm-dos-input:disabled {
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+.llm-dos-prompt-line:has(.llm-dos-input:disabled) {
+  cursor: not-allowed;
+}
+
+.llm-typewriter {
+  display: inline;
+  font: inherit;
+  color: inherit;
+}
+
+.llm-typewriter-text {
+  white-space: pre-wrap;
+}
+
+.llm-typewriter .llm-dos-cursor {
+  margin-left: 1px;
+}
+
+.llm-dos-cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 0.18em;
+  background: #c0c0c0;
+  vertical-align: baseline;
+  transform: translateY(2px);
+  animation: llm-dos-cursor-blink 1s step-end infinite;
+}
+
+.llm-dos-cursor-inline {
+  flex-shrink: 0;
+  margin-left: 0.2em;
+}
+
+.llm-dos-line.is-loading {
+  color: #c0c0c0;
+}
+
+.llm-dos-loading-cursor {
+  display: inline;
+  margin-left: 0.2em;
+}
+
+@keyframes llm-dos-cursor-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
 }

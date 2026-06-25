@@ -140,7 +140,7 @@ export function Win98Select({
           ✕
         </button>
       )}
-      <span className="select-box-icon" aria-hidden>
+      <span className="select-box-icon field-affix-column" aria-hidden>
         ▲
         <br />
         ▼

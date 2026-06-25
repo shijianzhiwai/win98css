@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Win98Badge,
   Win98Button,
@@ -10,14 +10,27 @@ import {
   Win98FieldRow,
   Win98GroupBox,
   Win98Input,
+  Win98LlmChat,
+  type Win98LlmMessage,
   Win98OptionButton,
   Win98Progress,
   Win98Select,
   Win98Table,
   Win98TableHeaderCell,
+  Win98TablePagination,
   Win98TableWrap,
+  Win98TextArea,
+  Win98TextBox,
   Win98Window,
+  getPageCount,
+  paginateRows,
 } from "../components/win98";
+
+const TABLE_PAGE_SIZE = 4;
+
+const LLM_DEMO_REPLY = `Win98 UI 组件库已加载完成。
+> 支持 Checkbox、OptionButton、TextBox 与表格分页。
+> LLM 回复使用打字机效果，光标为 DOS 粗下划线。`;
 
 const SELECT_OPTIONS = [
   { value: "doc", label: "文档.txt", hint: "12 KB" },
@@ -51,15 +64,62 @@ const TABLE_ROWS = [
   { name: "壁纸.bmp", type: "位图图像", size: "512 KB", modified: "2026-05-28", status: "正常", hot: false },
   { name: "安装包.cab", type: "Cabinet", size: "3.8 MB", modified: "2026-05-25", status: "正常", hot: true },
   { name: "配置.ini", type: "配置文件", size: "2 KB", modified: "2026-06-24", status: "正常", hot: false },
+  { name: "缓存.tmp", type: "临时文件", size: "8 KB", modified: "2026-06-23", status: "正常", hot: false },
+  { name: "数据.dat", type: "数据文件", size: "640 KB", modified: "2026-06-22", status: "只读", hot: false },
+  { name: "图标.ico", type: "图标", size: "16 KB", modified: "2026-06-21", status: "正常", hot: false },
+  { name: "帮助.hlp", type: "帮助文档", size: "88 KB", modified: "2026-06-19", status: "正常", hot: false },
 ];
 
 export function Playground() {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [selected, setSelected] = useState<string>("exe");
-  const [text, setText] = useState("");
+  const [selected, setSelected] = useState<string | undefined>("exe");
+  const [occupation, setOccupation] = useState("");
+  const [address1, setAddress1] = useState("");
+  const [address2, setAddress2] = useState("");
+  const [notes, setNotes] = useState("");
+  const [password, setPassword] = useState("");
   const [search, setSearch] = useState("");
+  const [tablePage, setTablePage] = useState(1);
   const [osChoice, setOsChoice] = useState("linux");
   const [installProgress] = useState(45);
+  const [llmMessages, setLlmMessages] = useState<Win98LlmMessage[]>([
+    { id: "llm-u-1", role: "user", content: "介绍一下这个组件库。" },
+    { id: "llm-a-1", role: "assistant", content: LLM_DEMO_REPLY },
+  ]);
+  const [llmTypingId, setLlmTypingId] = useState<string | null>("llm-a-1");
+  const [llmLoading, setLlmLoading] = useState(false);
+  const [llmInput, setLlmInput] = useState("");
+
+  const filteredRows = useMemo(
+    () => TABLE_ROWS.filter((row) => row.name.toLowerCase().includes(search.trim().toLowerCase())),
+    [search],
+  );
+  const tablePageCount = getPageCount(filteredRows.length, TABLE_PAGE_SIZE);
+  const safeTablePage = Math.min(tablePage, tablePageCount);
+  const visibleRows = paginateRows(filteredRows, safeTablePage, TABLE_PAGE_SIZE);
+
+  useEffect(() => {
+    setTablePage(1);
+  }, [search]);
+
+  const sendLlmMessage = () => {
+    const text = llmInput.trim();
+    if (!text || llmLoading) return;
+    const userId = `llm-u-${Date.now()}`;
+    const assistantId = `llm-a-${Date.now()}`;
+    setLlmMessages((prev) => [...prev, { id: userId, role: "user", content: text }]);
+    setLlmInput("");
+    setLlmTypingId(null);
+    setLlmLoading(true);
+    window.setTimeout(() => {
+      setLlmMessages((prev) => [
+        ...prev,
+        { id: assistantId, role: "assistant", content: LLM_DEMO_REPLY },
+      ]);
+      setLlmLoading(false);
+      setLlmTypingId(assistantId);
+    }, 1400);
+  };
 
   return (
     <>
@@ -85,14 +145,6 @@ export function Playground() {
               <Win98Button variant="md" className="btn-send-demo">强调</Win98Button>
               <Win98Button variant="sm" title="工具栏">🔍</Win98Button>
             </div>
-          </Win98GroupBox>
-          <Win98GroupBox label="输入框">
-            <Win98Input
-              type="text"
-              placeholder="请输入..."
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-            />
           </Win98GroupBox>
           <Win98GroupBox label="图标按钮">
             <div className="button-demo-row">
@@ -147,9 +199,7 @@ export function Playground() {
                 </tr>
               </thead>
               <tbody>
-                {TABLE_ROWS.filter((row) =>
-                  row.name.toLowerCase().includes(search.trim().toLowerCase()),
-                ).map((row) => (
+                {visibleRows.map((row) => (
                   <tr key={row.name}>
                     <td>
                       <div className="cell-check">
@@ -188,8 +238,84 @@ export function Playground() {
               </tbody>
             </Win98Table>
           </Win98TableWrap>
-          <div className="view-more">
-            <Win98Button>查看更多 ▾</Win98Button>
+          <Win98TablePagination
+            page={safeTablePage}
+            pageSize={TABLE_PAGE_SIZE}
+            total={filteredRows.length}
+            onPageChange={setTablePage}
+          />
+        </Win98Window>
+
+        <Win98Window title="TextBox.exe" fullWidth>
+          <div className="textbox-demo-grid">
+            <Win98GroupBox label="单行 · 标签在左">
+              <Win98TextBox
+                id="demo-occupation"
+                label="职业"
+                placeholder="请输入职业..."
+                value={occupation}
+                onChange={(e) => setOccupation(e.target.value)}
+              />
+            </Win98GroupBox>
+            <Win98GroupBox label="单行 · 标签在上">
+              <Win98TextBox
+                id="demo-address1"
+                label="地址（第一行）"
+                stacked
+                value={address1}
+                onChange={(e) => setAddress1(e.target.value)}
+              />
+              <Win98TextBox
+                id="demo-address2"
+                label="地址（第二行）"
+                stacked
+                value={address2}
+                onChange={(e) => setAddress2(e.target.value)}
+              />
+            </Win98GroupBox>
+            <Win98GroupBox label="多行 TextArea">
+              <Win98TextArea
+                id="demo-notes"
+                label="备注"
+                rows={5}
+                placeholder="多行输入..."
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+              />
+            </Win98GroupBox>
+            <Win98GroupBox label="类型与状态">
+              <Win98TextBox
+                id="demo-password"
+                label="密码"
+                type="password"
+                stacked
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Win98TextBox
+                id="demo-email"
+                label="邮箱"
+                type="email"
+                stacked
+                placeholder="name@example.com"
+              />
+              <Win98TextBox id="demo-tel" label="电话" type="tel" stacked placeholder="010-12345678" />
+              <Win98TextBox id="demo-url" label="网址" type="url" stacked placeholder="https://example.com" />
+              <Win98TextBox id="demo-number" label="数量" type="number" stacked defaultValue={1} min={0} />
+              <Win98TextBox
+                id="demo-disabled"
+                label="禁用"
+                value="Windows Green"
+                disabled
+              />
+              <Win98TextBox
+                id="demo-readonly"
+                label="只读"
+                stacked
+                readOnly
+                value="只读内容"
+              />
+            </Win98GroupBox>
           </div>
         </Win98Window>
 
@@ -254,6 +380,18 @@ export function Playground() {
               <Win98FieldRow>{installProgress}% 完成</Win98FieldRow>
             </Win98GroupBox>
           </div>
+        </Win98Window>
+
+        <Win98Window title="LLM 对话.exe" fullWidth>
+          <Win98LlmChat
+            messages={llmMessages}
+            typingMessageId={llmTypingId}
+            loading={llmLoading}
+            onTypewriterComplete={() => setLlmTypingId(null)}
+            inputValue={llmInput}
+            onInputChange={setLlmInput}
+            onSend={sendLlmMessage}
+          />
         </Win98Window>
 
         <Win98Window title="字体预览.exe" fullWidth>

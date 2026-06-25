@@ -9,7 +9,8 @@
 | 组件 | 说明 |
 |------|------|
 | `Win98Button` | 凸起按钮（`connect` / `send` / `sm` / `minmax` 等 variant） |
-| `Win98Input` | 凹陷输入框 |
+| `Win98Input` | 凹陷输入框（底层 primitive） |
+| `Win98TextBox` / `Win98TextArea` | 文本框（单行 / 多行，参考 98.css TextBox） |
 | `Win98Checkbox` | Win98 风格复选框（支持无标签 / 带 `label`） |
 | `Win98OptionButton` | 单选按钮（OptionButton / Radio） |
 | `Win98FieldRow` | 表单控件行间距（对应 98.css `.field-row`） |
@@ -19,6 +20,8 @@
 | `Win98Select` | 可搜索下拉 |
 | `Win98Dialog` | 模态对话框 |
 | `Win98Table` / `Win98TableWrap` / `Win98TableHeaderCell` | 表格 |
+| `Win98TablePagination` | 表格分页（« ‹ › » + 页码信息） |
+| `Win98LlmChat` / `Win98Typewriter` / `Win98DosPromptInput` | DOS 黑框 LLM 对话（打字机 + 下划线光标） |
 | `Win98Desktop` | 桌面双列网格布局 |
 | `Win98Badge` | HOT 标签 |
 
