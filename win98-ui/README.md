@@ -33,14 +33,6 @@ npm install
 npm run dev
 ```
 
-若出现 `Could not find the module ... global-error.js in the React Client Manifest`：
-
-1. 停掉所有 `next dev` 进程
-2. 执行 `npm run dev:clean`（清 `.next` 后重启）
-3. 仍复现时改用 `npm run dev:webpack`（绕过 Turbopack HMR 问题）
-
-不要在同一目录同时跑 `next build` 和 `next dev`，也不要开两个 dev 端口。
-
 ## 在 Next.js 项目中使用
 
 ```tsx
@@ -52,7 +44,7 @@ import { Win98Button, Win98Window } from "@/components/win98";
 
 export default function Page() {
   return (
-    <Win98Window title="主网列表.exe">
+    <Win98Window title="示例窗口.exe">
       <Win98Button>示例按钮</Win98Button>
     </Win98Window>
   );
