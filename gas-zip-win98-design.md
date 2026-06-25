@@ -5,8 +5,6 @@
 > 最后更新：2026-06-24（备忘 98.css 后续组件参考）  
 > 用途：设计参考与复刻，不直接复制其业务代码
 
-配套 Demo：[gas-zip-win98-demo.html](./gas-zip-win98-demo.html)
-
 ---
 
 ## 1. 概述
@@ -24,9 +22,9 @@ Gas.zip 使用 **Next.js + Tailwind CSS v4 + Radix UI** 构建了一套高度还
 | 字体 | **JetBrains Mono**（英文）+ **Sarasa Mono SC**（中文 woff2）+ **宋体**（fallback） |
 | 语义结构 | 表格列头在 `<thead>` 内；窗口标题为普通文本非按钮 |
 
-### Gas.zip 类名 ↔ Demo 类名对照
+### Gas.zip 类名 ↔ win98-ui 类名对照
 
-| Gas.zip (Tailwind) | Demo (纯 CSS) | 用途 |
+| Gas.zip (Tailwind) | win98-ui (CSS) | 用途 |
 |--------------------|---------------|------|
 | `borderBtn` | `.border-btn` | 凸起按钮 |
 | `borderBtnInverted` / `active:borderBtnInverted` | `.border-btn:active` | 凹陷/按下态 |
@@ -323,9 +321,9 @@ Win98 风格核心是 **outset（凸起）** 与 **inset（凹陷）**。
 | Chain | `min-width: 120px` | 弹性，左对齐 |
 | Add Chain / Explorer | `min-width: 96px` | 固定，居中，`white-space: nowrap` |
 
-列名文字过长时不换行，由 `.table-wrap { overflow-x: auto }` 提供横向滚动。Demo 中文列名：**链 / 添加链 / 浏览器**。
+列名文字过长时不换行，由 `.table-wrap { overflow-x: auto }` 提供横向滚动。Playground 中文列名示例：**链 / 添加链 / 浏览器**。
 
-#### 列头 HTML（gas.zip 英文；Demo 替换为中文列名）
+#### 列头 HTML（gas.zip 英文；Playground 可替换为中文列名）
 
 ```html
 <thead>
@@ -477,7 +475,7 @@ Win98 风格核心是 **outset（凸起）** 与 **inset（凹陷）**。
 | macOS | `Songti SC`, `STSong` | `Heiti SC`, `PingFang SC` |
 | Web 开源 | `Noto Serif SC` | `Noto Sans SC`, `Microsoft YaHei` |
 
-#### 正式方案（Demo / 网站采用）
+#### 正式方案（win98-ui 采用）
 
 仅保留两套中文相关字体：**Sarasa Mono SC**（自托管 woff2）+ **宋体**（系统 fallback）。
 
@@ -626,22 +624,13 @@ body {
 └── Discord 浮动按钮
 ```
 
-Demo 当前实现：**主网列表.exe** + **跨链桥.exe** + **字体预览.exe** + **连接钱包弹窗**（中文 UI）。
+Playground 当前实现：**主网列表.exe** + **跨链桥.exe** + **字体预览.exe** + **连接钱包弹窗**（中文 UI）。
 
 响应式：`.desktop-grid` 大屏 2 列，`<768px` 单列。
 
 ---
 
-## 8. Demo 与静态资源
-
-### `gas-zip-win98-demo.html`
-
-单文件实现，包含：
-
-- Google Fonts 加载 JetBrains Mono
-- `fonts/` 自托管 Sarasa Mono SC（`preload` + `sarasa-mono-sc.css`）
-- 中文 UI 文案 + **字体预览.exe**（Sarasa / 宋体 / JetBrains 三行对比）
-- 交互 JS：下拉搜索、弹窗、Connect Wallet 流程
+## 8. 静态资源与预览
 
 ### `fonts/`
 
@@ -654,18 +643,11 @@ Demo 当前实现：**主网列表.exe** + **跨链桥.exe** + **字体预览.ex
 
 ### 本地预览
 
-**HTML Demo**（单文件，无构建）：
-
-```bash
-cd ~/Doc/gas-zip-win98
-python3 -m http.server 8080
-# http://localhost:8080/gas-zip-win98-demo.html
-```
-
 **Next.js 组件库 Playground**（`win98-ui/`）：
 
 ```bash
-cd ~/Doc/gas-zip-win98/win98-ui
+cd win98-ui
+npm install
 npm run dev
 # http://localhost:3000
 ```
@@ -676,11 +658,11 @@ npm run dev
 
 ## 9. 技术栈对照
 
-| Gas.zip | Demo / 可替换 |
-|---------|---------------|
-| Next.js | 纯 HTML |
-| Tailwind v4 自定义类 | 手写 CSS class |
-| Radix Select / Dialog / Checkbox | 自定义 JS + 原生元素 |
+| Gas.zip | win98-ui |
+|---------|----------|
+| Next.js | Next.js |
+| Tailwind v4 自定义类 | 手写 CSS class（`win98.css`） |
+| Radix Select / Dialog / Checkbox | 自定义 React 组件 + 原生元素 |
 | JetBrains Mono (next/font) | Google Fonts CDN |
 | 中文 | Sarasa Mono SC woff2（`fonts/`）+ SimSun fallback |
 
@@ -725,7 +707,7 @@ npm run dev
 
 - 线上站点：https://www.gas.zip/
 - 公开 CSS：https://www.gas.zip/_next/static/css/3b4b3f06e5c4e91b.css
-- 本地 Demo：[gas-zip-win98-demo.html](./gas-zip-win98-demo.html)
+- 组件库 Playground：`win98-ui/`（`npm run dev`）
 - 字体资源：[fonts/README.md](./fonts/README.md)
 
 ### 11.1 后续组件备忘：98.css
@@ -759,6 +741,6 @@ npm run dev
 | 2026-06-24 | 列头点击改为仅 :active 瞬时凹陷，去除 is-active |
 | 2026-06-24 | 字体定稿：仅 Sarasa Mono SC + 宋体 fallback；移除文楷/像素/Gothic 预设 |
 | 2026-06-24 | Sarasa Mono SC woff2 自托管至 `fonts/`；整体迁至 `~/Doc/gas-zip-win98/` |
-| 2026-06-24 | 字体加载：`font-display: swap` + 可选 preload；文档对齐 Demo |
+| 2026-06-24 | 字体加载：`font-display: swap` + 可选 preload |
 | 2026-06-24 | 新增 `win98-ui/` Next.js 组件库（MVP） |
 | 2026-06-24 | 备忘：后续组件参考 [98.css](https://jdan.github.io/98.css/)（含 [Tabs](https://jdan.github.io/98.css/#tabs)） |

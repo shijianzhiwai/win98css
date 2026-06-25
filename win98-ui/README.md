@@ -64,7 +64,7 @@ export default function Page() {
 ```
 win98-ui/
 ├── public/fonts/          # Sarasa Mono SC woff2
-├── src/styles/win98.css   # 设计 Token + 组件样式（来自 Demo 提取）
+├── src/styles/win98.css   # 设计 Token + 组件样式（来自设计规范提取）
 ├── src/components/win98/  # React 组件
 └── src/app/Playground.tsx # 组件库 Playground（纯 UI 演示）
 ```
