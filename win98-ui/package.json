@@ -5,6 +5,9 @@
   "description": "Gas.zip Win98 style React component library for Next.js",
   "scripts": {
     "dev": "next dev",
+    "dev:webpack": "next dev --webpack",
+    "clean": "rm -rf .next",
+    "dev:clean": "npm run clean && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

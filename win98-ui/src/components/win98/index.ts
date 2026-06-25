@@ -1,6 +1,9 @@
 export { Win98Button, type Win98ButtonProps, type Win98ButtonVariant } from "./Button";
 export { Win98Input, type Win98InputProps } from "./Input";
 export { Win98Checkbox, type Win98CheckboxProps } from "./Checkbox";
+export { Win98FieldRow, type Win98FieldRowProps } from "./FieldRow";
+export { Win98OptionButton, type Win98OptionButtonProps } from "./OptionButton";
+export { Win98Progress, type Win98ProgressProps } from "./Progress";
 export { Win98Window, type Win98WindowProps } from "./Window";
 export { Win98GroupBox, type Win98GroupBoxProps } from "./GroupBox";
 export { Win98Select, type Win98SelectProps, type Win98SelectOption } from "./Select";

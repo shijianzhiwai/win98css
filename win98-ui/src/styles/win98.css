@@ -21,6 +21,8 @@
   --select-dropdown-max-height: 200px;
   --select-drawer-duration: 0.15s;
   --checkbox-size: 16px;
+  --option-button-size: 14px;
+  --progress-fill: #000080;
 }
 
 * {
@@ -149,6 +151,7 @@
 }
 
 .group-box {
+  border: none;
   border-top: 1.75px solid var(--border-color-muted);
   border-left: 1.75px solid var(--border-color-muted);
   border-right: 1.75px solid var(--border-color-light);
@@ -160,7 +163,8 @@
     inset 1.75px 0 0 0 var(--box-shadow-light);
   position: relative;
   padding: 18px 12px 12px;
-  margin-top: 8px;
+  margin: 8px 0 0;
+  min-inline-size: 0;
 }
 
 .group-box-label {
@@ -171,6 +175,8 @@
   padding: 0 8px;
   font-size: 14px;
   font-weight: 600;
+  float: none;
+  width: auto;
 }
 
 /* ── layout ── */
@@ -228,15 +234,24 @@
 
 .desktop-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(360px, 400px) minmax(0, 1fr);
   gap: 20px;
   max-width: 1100px;
   margin: 0 auto;
 }
 
+/* 允许右侧窗口收缩，表格在 .table-wrap 内横向滚动 */
+.desktop-grid > .window {
+  min-width: 0;
+}
+
 @media (max-width: 768px) {
   .desktop-grid {
     grid-template-columns: 1fr;
+  }
+
+  .desktop-grid > .window {
+    min-width: auto;
   }
 }
 
@@ -261,11 +276,16 @@
 .window-body {
   margin: 4px;
   padding: 8px;
+  min-width: 0;
 }
 
 /* ── table ── */
 
 .table-wrap {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   overflow-x: auto;
   overflow-y: auto;
   border: 2px inset;
@@ -291,9 +311,43 @@
 }
 
 .send-address,
-.group-box > .border-inverted {
+.group-box > .border-inverted,
+.group-box .border-inverted {
   width: 100%;
+  height: 32px;
+  padding: 0 8px;
   box-sizing: border-box;
+}
+
+.button-demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.button-demo-row > .border-btn {
+  height: 32px;
+  min-height: 32px;
+  width: auto;
+  min-width: 72px;
+}
+
+.button-demo-row > .border-btn.btn-send-demo {
+  font-weight: 500;
+  margin-top: 0;
+}
+
+.button-demo-row > .border-btn.btn-sm {
+  min-width: 40px;
+  width: 40px;
+  padding: 0;
+}
+
+.button-demo-row > .border-btn.btn-toolbar {
+  min-width: 32px;
+  width: 32px;
+  padding: 0;
 }
 
 .search-row .border-btn,
@@ -306,8 +360,8 @@
 }
 
 .data-table {
-  width: 100%;
-  min-width: 380px;
+  width: max-content;
+  min-width: 720px;
   border-collapse: collapse;
   font-size: 14px;
   background: #fff;
@@ -344,6 +398,23 @@
 
 .data-table thead th.col-chain {
   min-width: 120px;
+}
+
+.data-table thead th.col-meta,
+.data-table tbody td.col-meta {
+  min-width: 96px;
+  white-space: nowrap;
+}
+
+.data-table thead th.col-date,
+.data-table tbody td.col-date {
+  min-width: 108px;
+  white-space: nowrap;
+}
+
+.data-table thead th.col-narrow,
+.data-table tbody td.col-narrow {
+  min-width: 72px;
 }
 
 .data-table thead th.col-action,
@@ -540,6 +611,185 @@
 .checkbox-input:focus-visible + .checkbox-box {
   outline: 1px dotted #000;
   outline-offset: 1px;
+}
+
+.checkbox-input:disabled + .checkbox-box {
+  background: var(--primary);
+}
+
+.checkbox-input:disabled ~ .checkbox-text {
+  color: var(--border-color-muted);
+}
+
+/* ── field row（98.css field-row 适配）── */
+
+.field-row {
+  display: flex;
+  align-items: center;
+}
+
+.field-row + .field-row {
+  margin-top: 6px;
+}
+
+.field-row-stacked {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-row-stacked > * + * {
+  margin-top: 6px;
+}
+
+/* 带文字标签的 Checkbox */
+.checkbox-field-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  min-height: var(--checkbox-size);
+}
+
+.checkbox-field-label .checkbox-input {
+  position: absolute;
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
+  inset: 0 auto auto 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.checkbox-field-label .checkbox-box {
+  flex-shrink: 0;
+}
+
+.checkbox-text {
+  user-select: none;
+}
+
+/* ── OptionButton（单选）── */
+
+.option-button-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  min-height: var(--option-button-size);
+}
+
+.option-button-input {
+  position: absolute;
+  width: var(--option-button-size);
+  height: var(--option-button-size);
+  inset: 0 auto auto 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.option-button-box {
+  display: block;
+  width: var(--option-button-size);
+  height: var(--option-button-size);
+  box-sizing: border-box;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #fff;
+  border-top: 1px solid var(--border-color-dark);
+  border-left: 1px solid var(--border-color-dark);
+  border-right: 1px solid var(--box-shadow-light);
+  border-bottom: 1px solid var(--box-shadow-light);
+  box-shadow:
+    inset 1px 1px 0 var(--box-shadow-muted),
+    inset -1px -1px 0 var(--border-color-light);
+  position: relative;
+  pointer-events: none;
+}
+
+.option-button-input:checked + .option-button-box::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: #000;
+}
+
+.option-button-input:active:not(:disabled) + .option-button-box {
+  background: var(--primary);
+}
+
+.option-button-input:focus-visible + .option-button-box {
+  outline: 1px dotted #000;
+  outline-offset: 1px;
+}
+
+.option-button-input:disabled + .option-button-box {
+  background: var(--primary);
+}
+
+.option-button-input:disabled ~ .option-button-text {
+  color: var(--border-color-muted);
+}
+
+.option-button-text {
+  user-select: none;
+}
+
+/* ── Progress Indicator ── */
+
+.progress-indicator {
+  box-sizing: border-box;
+  height: 32px;
+  padding: 4px;
+  background: var(--primary);
+  border-top: 1.75px solid var(--border-color-muted);
+  border-left: 1.75px solid var(--border-color-muted);
+  border-right: 1.75px solid var(--border-color-light);
+  border-bottom: 1.75px solid var(--border-color-light);
+  box-shadow:
+    inset 1px 1px 0 var(--box-shadow-dark),
+    inset -1px -1px 0 var(--box-shadow-light);
+}
+
+.progress-indicator-bar {
+  display: block;
+  height: 100%;
+  background-color: var(--progress-fill);
+}
+
+.progress-indicator.segmented .progress-indicator-bar {
+  background-color: transparent;
+  background-image: linear-gradient(
+    90deg,
+    var(--progress-fill) 14px,
+    transparent 14px 16px
+  );
+  background-repeat: repeat-x;
+  background-size: 16px 100%;
+}
+
+.controls-demo-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.controls-demo-grid .progress-indicator {
+  width: 100%;
+  max-width: 320px;
 }
 
 .view-more {

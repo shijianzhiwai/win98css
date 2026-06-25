@@ -1,5 +1,3 @@
-import { Playground } from "./Playground";
+"use client";
 
-export default function Home() {
-  return <Playground />;
-}
+export { Playground as default } from "./Playground";
