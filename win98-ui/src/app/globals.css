@@ -1,0 +1,16 @@
+* {
+  box-sizing: border-box;
+}
+
+.win98-app button,
+.win98-app input,
+.win98-app select,
+.win98-app textarea {
+  font: inherit;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}

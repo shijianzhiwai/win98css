@@ -1,0 +1,12 @@
+.DS_Store
+*.pem
+.env*
+
+win98-ui/node_modules/
+win98-ui/.next/
+win98-ui/out/
+win98-ui/.vercel
+win98-ui/*.tsbuildinfo
+win98-ui/npm-debug.log*
+win98-ui/yarn-debug.log*
+win98-ui/yarn-error.log*
