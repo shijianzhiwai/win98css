@@ -9,7 +9,8 @@ export type Win98ButtonVariant =
   | "sm"
   | "md"
   | "toolbar"
-  | "titleBar";
+  | "titleBar"
+  | "link";
 
 const variantClass: Record<Win98ButtonVariant, string> = {
   default: "",
@@ -20,6 +21,7 @@ const variantClass: Record<Win98ButtonVariant, string> = {
   md: "btn-md",
   toolbar: "btn-toolbar",
   titleBar: "title-bar-btn",
+  link: "btn-link",
 };
 
 export type Win98ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {

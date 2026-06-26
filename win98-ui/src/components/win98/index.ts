@@ -9,6 +9,7 @@ export { Win98Progress, type Win98ProgressProps } from "./Progress";
 export { Win98Window, type Win98WindowProps } from "./Window";
 export { Win98GroupBox, type Win98GroupBoxProps } from "./GroupBox";
 export { Win98Select, type Win98SelectProps, type Win98SelectOption } from "./Select";
+export { Win98DatePicker, type Win98DatePickerProps } from "./DatePicker";
 export { Win98Dialog, type Win98DialogProps } from "./Dialog";
 export {
   Win98Table,

@@ -24,6 +24,24 @@
   --option-button-size: 14px;
   --progress-fill: #000080;
 
+  /* ── 排版规范 token(单一事实来源)── */
+  --fs-title: 16px;   /* 窗口标题栏 / 顶栏 logo / 对话框标题 */
+  --fs-body: 14px;    /* 基准:正文/说明、输入框、按钮、控件标签、表格、下拉选项 */
+  --fs-caption: 12px; /* 次要:分页状态、徽章、字段标签、DOS header、辅助说明 */
+  --fs-micro: 11px;   /* 微型:标题栏按钮、清除按钮、字体样例标签、min/max */
+  /* 图标字形(非文本层级,保留为图标尺寸)*/
+  --fs-icon-lg: 18px; /* logo-icon / modal-icon */
+  --fs-icon-xl: 20px; /* 顶栏 btn-icon */
+  --fs-affix: 10px;   /* 下拉 ▲▼ */
+  --fs-affix-sm: 8px; /* 数字框 ▲▼ */
+
+  /* ── 控件尺寸规范 token ── */
+  --control-h: 32px;     /* 标准输入框/按钮/select/number-box/col-header 高度 */
+  --control-h-sm: 28px;  /* 分页按钮、查看更多 */
+  --control-h-lg: 36px;  /* 主操作发送按钮 */
+  --control-pad-x: 8px;  /* 输入框水平内边距 */
+  --titlebar-btn: 20px;  /* 标题栏按钮尺寸 */
+
   /* 98.css 对齐 token（滚动条等，见 jdan/98.css style.css） */
   --button-face: #dfdfdf;
   --button-highlight: #fefefe;
@@ -42,7 +60,7 @@
 .win98-app {
   /* 英文 JetBrains Mono → 中文 Sarasa Mono SC → 未加载时宋体 */
   font-family: var(--font-mono), var(--font-cjk-sarasa), var(--font-cjk-song), monospace;
-  font-size: 16px;
+  font-size: var(--fs-body);
   font-weight: 400;
   background: var(--background);
   color: var(--muted-foreground);
@@ -64,7 +82,7 @@
   border: none;
   cursor: pointer;
   font-family: inherit;
-  font-size: 14px;
+  font-size: var(--fs-body);
   font-weight: 400;
   transition: none;
   box-sizing: border-box;
@@ -74,7 +92,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 8px;
+  padding: 0 var(--control-pad-x);
   min-height: 0;
   border-top: 1.75px solid var(--box-shadow-light);
   border-left: 1.75px solid var(--box-shadow-light);
@@ -111,12 +129,44 @@
   text-shadow: 1px 1px #fff;
 }
 
+/* 简约样式：纯文字 + 下划线，蓝色参考进度条填充色 */
+.border-btn.btn-link {
+  background: transparent;
+  color: var(--progress-fill);
+  padding: 0 4px;
+  min-width: 0;
+  border: none;
+  box-shadow: none;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.border-btn.btn-link:hover:not(:disabled) {
+  background: transparent;
+  color: var(--progress-fill);
+  text-decoration: underline;
+  filter: brightness(1.25);
+}
+
+.border-btn.btn-link:active:not(:disabled),
+.border-btn.btn-link.pressed:not(:disabled) {
+  border: none;
+  box-shadow: none;
+  filter: brightness(0.85);
+}
+
+.border-btn.btn-link:disabled {
+  background: transparent;
+  box-shadow: none;
+  text-shadow: none;
+}
+
 .border-inverted {
   background: #fff;
   border: none;
   outline: none;
   font-family: inherit;
-  font-size: 14px;
+  font-size: var(--fs-body);
   color: var(--muted-foreground);
   box-sizing: border-box;
   line-height: 1.2;
@@ -151,7 +201,7 @@
 .textbox-field.field-row > label {
   flex-shrink: 0;
   min-width: 72px;
-  font-size: 14px;
+  font-size: var(--fs-body);
   font-weight: 400;
   user-select: none;
 }
@@ -161,13 +211,13 @@
   flex: 1;
   width: auto;
   min-width: 0;
-  height: 32px;
-  padding: 0 8px;
+  height: var(--control-h);
+  padding: 0 var(--control-pad-x);
 }
 
 .textbox-field.field-row-stacked > label {
   display: block;
-  font-size: 14px;
+  font-size: var(--fs-body);
   font-weight: 400;
   user-select: none;
 }
@@ -175,8 +225,8 @@
 .textbox-field.field-row-stacked > .textbox-input,
 .textbox-field.field-row-stacked > .border-inverted {
   width: 100%;
-  height: 32px;
-  padding: 0 8px;
+  height: var(--control-h);
+  padding: 0 var(--control-pad-x);
 }
 
 .textbox-field.field-row-stacked > .textbox-textarea {
@@ -242,7 +292,7 @@
   left: 8px;
   background: var(--card);
   padding: 0 8px;
-  font-size: 14px;
+  font-size: var(--fs-body);
   font-weight: 600;
   float: none;
   width: auto;
@@ -263,7 +313,7 @@
   align-items: center;
   gap: 8px;
   font-weight: 600;
-  font-size: 16px;
+  font-size: var(--fs-title);
 }
 
 .logo-icon {
@@ -273,7 +323,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: var(--fs-icon-lg);
 }
 
 .topbar-actions {
@@ -283,7 +333,7 @@
 }
 
 .btn-connect {
-  height: 32px;
+  height: var(--control-h);
   padding: 0 12px;
   font-weight: 200;
 }
@@ -298,7 +348,7 @@
   border: none;
   color: #fff;
   cursor: pointer;
-  font-size: 20px;
+  font-size: var(--fs-icon-xl);
 }
 
 .desktop-grid {
@@ -307,6 +357,8 @@
   gap: 20px;
   max-width: 1100px;
   margin: 0 auto;
+  /* 同行窗口各按自身内容高度,顶部对齐,不再被 grid 拉伸成等高 */
+  align-items: start;
 }
 
 /* 允许右侧窗口收缩，表格在 .table-wrap 内横向滚动 */
@@ -334,7 +386,7 @@
   padding: 4px 8px;
   margin: 4px;
   width: calc(100% - 8px);
-  font-size: 16px;
+  font-size: var(--fs-title);
   font-weight: 400;
   font-style: normal;
   line-height: 1.5;
@@ -433,16 +485,16 @@
   flex: 1;
   width: 100%;
   min-width: 0;
-  height: 32px;
-  padding: 0 8px;
+  height: var(--control-h);
+  padding: 0 var(--control-pad-x);
 }
 
 .send-address,
 .group-box > .border-inverted,
 .group-box .border-inverted:not(.textbox-textarea) {
   width: 100%;
-  height: 32px;
-  padding: 0 8px;
+  height: var(--control-h);
+  padding: 0 var(--control-pad-x);
   box-sizing: border-box;
 }
 
@@ -459,8 +511,8 @@
 }
 
 .button-demo-row > .border-btn {
-  height: 32px;
-  min-height: 32px;
+  height: var(--control-h);
+  min-height: var(--control-h);
   width: auto;
   min-width: 72px;
 }
@@ -470,6 +522,12 @@
   margin-top: 0;
 }
 
+.button-demo-row > .border-btn.btn-link {
+  min-width: 0;
+  width: auto;
+  padding: 0 4px;
+}
+
 .button-demo-row > .border-btn.btn-sm {
   min-width: 40px;
   width: 40px;
@@ -477,25 +535,25 @@
 }
 
 .button-demo-row > .border-btn.btn-toolbar {
-  min-width: 32px;
-  width: 32px;
+  min-width: var(--control-h);
+  width: var(--control-h);
   padding: 0;
 }
 
 .search-row .border-btn,
 .border-btn.btn-toolbar {
-  width: 32px;
-  height: 32px;
-  min-height: 32px;
+  width: var(--control-h);
+  height: var(--control-h);
+  min-height: var(--control-h);
   padding: 0;
-  font-size: 16px;
+  font-size: var(--fs-body);
 }
 
 .data-table {
   width: max-content;
   min-width: 720px;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: var(--fs-body);
   background: #fff;
   margin-top: 0;
   table-layout: auto;
@@ -561,10 +619,10 @@
   display: flex;
   align-items: center;
   width: 100%;
-  height: 32px;
-  padding: 0 8px;
+  height: var(--control-h);
+  padding: 0 var(--control-pad-x);
   font-family: inherit;
-  font-size: 14px;
+  font-size: var(--fs-body);
   font-weight: 400;
   color: var(--muted-foreground);
   background: var(--primary);
@@ -659,7 +717,7 @@
 .badge-hot {
   background: var(--destructive);
   color: #fff;
-  font-size: 12px;
+  font-size: var(--fs-caption);
   font-weight: 700;
   padding: 1px 6px;
   margin-left: 4px;
@@ -667,9 +725,9 @@
 
 .btn-sm {
   width: 40px;
-  height: 32px;
-  min-height: 32px;
-  font-size: 12px;
+  height: var(--control-h);
+  min-height: var(--control-h);
+  font-size: var(--fs-caption);
   padding: 0;
   display: inline-flex;
   align-items: center;
@@ -677,9 +735,9 @@
 }
 
 .btn-md {
-  height: 32px;
-  min-height: 32px;
-  padding: 0 8px;
+  height: var(--control-h);
+  min-height: var(--control-h);
+  padding: 0 var(--control-pad-x);
 }
 
 .cell-action {
@@ -780,7 +838,7 @@
   gap: 6px;
   position: relative;
   cursor: pointer;
-  font-size: 14px;
+  font-size: var(--fs-body);
   font-weight: 400;
   line-height: 1.2;
   min-height: var(--checkbox-size);
@@ -812,7 +870,7 @@
   gap: 6px;
   position: relative;
   cursor: pointer;
-  font-size: 14px;
+  font-size: var(--fs-body);
   font-weight: 400;
   line-height: 1.2;
   min-height: var(--option-button-size);
@@ -885,7 +943,7 @@
 
 .progress-indicator {
   box-sizing: border-box;
-  height: 32px;
+  height: var(--control-h);
   padding: 4px;
   background: var(--primary);
   border-top: 1.75px solid var(--border-color-muted);
@@ -942,26 +1000,26 @@
 }
 
 .table-pagination-btn {
-  min-width: 32px;
-  width: 32px;
-  height: 28px;
-  min-height: 28px;
+  min-width: var(--control-h);
+  width: var(--control-h);
+  height: var(--control-h-sm);
+  min-height: var(--control-h-sm);
   padding: 0;
-  font-size: 14px;
+  font-size: var(--fs-body);
 }
 
 .table-pagination-status {
   min-width: 140px;
   padding: 0 8px;
-  font-size: 13px;
+  font-size: var(--fs-caption);
   text-align: center;
   white-space: nowrap;
 }
 
 .view-more .border-btn {
-  height: 28px;
+  height: var(--control-h-sm);
   padding: 0 16px;
-  font-size: 12px;
+  font-size: var(--fs-caption);
 }
 
 /* ── bridge form ── */
@@ -982,17 +1040,17 @@
 
 .amount-row .border-btn:not(.btn-minmax):first-child {
   flex-shrink: 0;
-  min-width: 32px;
-  padding: 0 8px;
+  min-width: var(--control-h);
+  padding: 0 var(--control-pad-x);
 }
 
 .select-box {
   display: flex;
   align-items: stretch;
   width: 100%;
-  height: 36px;
-  min-height: 36px;
-  max-height: 36px;
+  height: var(--control-h);
+  min-height: var(--control-h);
+  max-height: var(--control-h);
   box-sizing: border-box;
   flex-shrink: 0;
   background: #fff;
@@ -1010,7 +1068,7 @@
 .select-box-value {
   flex: 1;
   padding: 6px 8px;
-  font-size: 16px;
+  font-size: var(--fs-body);
   font-weight: 400;
   line-height: 1;
   display: flex;
@@ -1029,7 +1087,7 @@
   height: 22px;
   margin: auto 2px auto 0;
   padding: 0;
-  font-size: 11px;
+  font-size: var(--fs-micro);
   line-height: 1;
   cursor: pointer;
 }
@@ -1053,7 +1111,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: var(--fs-affix);
   color: #333;
   background: var(--primary);
 }
@@ -1069,8 +1127,8 @@
   display: flex;
   align-items: stretch;
   width: 100%;
-  height: 32px;
-  min-height: 32px;
+  height: var(--control-h);
+  min-height: var(--control-h);
   box-sizing: border-box;
   flex-shrink: 0;
   background: #fff;
@@ -1094,9 +1152,9 @@
   border: none;
   outline: none;
   background: transparent;
-  padding: 0 8px;
+  padding: 0 var(--control-pad-x);
   font: inherit;
-  font-size: 14px;
+  font-size: var(--fs-body);
   color: var(--muted-foreground);
   appearance: textfield;
   -moz-appearance: textfield;
@@ -1118,7 +1176,7 @@
   align-items: stretch;
   justify-content: stretch;
   padding: 0;
-  font-size: 8px;
+  font-size: var(--fs-affix-sm);
   line-height: 1;
 }
 
@@ -1132,7 +1190,7 @@
   color: #333;
   cursor: pointer;
   font: inherit;
-  font-size: 8px;
+  font-size: var(--fs-affix-sm);
   line-height: 1;
   display: flex;
   align-items: center;
@@ -1226,13 +1284,13 @@
 
 .select-search input {
   width: 100%;
-  height: 28px;
+  height: var(--control-h-sm);
   padding: 0 6px;
 }
 
 .select-option {
   padding: 6px 10px;
-  font-size: 14px;
+  font-size: var(--fs-body);
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -1246,7 +1304,7 @@
 
 .select-option-clear {
   justify-content: center;
-  font-size: 13px;
+  font-size: var(--fs-caption);
   color: #555;
   border-bottom: 1px solid var(--border-color-muted);
 }
@@ -1264,23 +1322,23 @@
 
 .amount-row input {
   flex: 1;
-  height: 32px;
-  padding: 0 8px;
+  height: var(--control-h);
+  padding: 0 var(--control-pad-x);
   min-width: 0;
 }
 
 .amount-row .border-btn {
-  height: 32px;
-  min-height: 32px;
-  padding: 0 8px;
-  font-size: 14px;
+  height: var(--control-h);
+  min-height: var(--control-h);
+  padding: 0 var(--control-pad-x);
+  font-size: var(--fs-body);
   font-weight: 400;
 }
 
 .amount-row .btn-minmax {
   height: auto;
   padding: 0 4px;
-  font-size: 11px;
+  font-size: var(--fs-micro);
   font-weight: 400;
   color: #6b7280;
   background: transparent;
@@ -1301,10 +1359,10 @@
 
 .btn-send {
   width: 100%;
-  height: 36px;
-  min-height: 36px;
+  height: var(--control-h-lg);
+  min-height: var(--control-h-lg);
   margin-top: 8px;
-  font-size: 14px;
+  font-size: var(--fs-body);
   font-weight: 500;
   letter-spacing: 1px;
   box-sizing: border-box;
@@ -1312,8 +1370,8 @@
 
 .send-address {
   width: 100%;
-  height: 32px;
-  padding: 0 8px;
+  height: var(--control-h);
+  padding: 0 var(--control-pad-x);
   margin-top: 8px;
 }
 
@@ -1343,7 +1401,7 @@
 .demo-note {
   text-align: center;
   color: rgba(255, 255, 255, 0.7);
-  font-size: 12px;
+  font-size: var(--fs-caption);
   margin-top: 24px;
 }
 
@@ -1372,7 +1430,7 @@
 }
 
 .font-sample-label {
-  font-size: 11px;
+  font-size: var(--fs-micro);
   color: #6b7280;
   margin-bottom: 4px;
 }
@@ -1387,7 +1445,7 @@
 .font-sample-text.size-16 { font-size: 16px; }
 
 .font-preset-note {
-  font-size: 11px;
+  font-size: var(--fs-micro);
   color: #6b7280;
   margin-bottom: 10px;
   line-height: 1.5;
@@ -1432,7 +1490,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 16px;
+  font-size: var(--fs-title);
   font-weight: 400;
 }
 
@@ -1444,10 +1502,10 @@
 }
 
 .title-bar-btn {
-  width: 20px;
-  height: 20px;
+  width: var(--titlebar-btn);
+  height: var(--titlebar-btn);
   padding: 0;
-  font-size: 11px;
+  font-size: var(--fs-micro);
   line-height: 1;
   display: inline-flex;
   align-items: center;
@@ -1478,11 +1536,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: var(--fs-icon-lg);
 }
 
 .modal-message {
-  font-size: 14px;
+  font-size: var(--fs-body);
   font-weight: 400;
   line-height: 1.5;
 }
@@ -1497,14 +1555,14 @@
 
 .modal-field label {
   display: block;
-  font-size: 12px;
+  font-size: var(--fs-caption);
   margin-bottom: 4px;
 }
 
 .modal-field input {
   width: 100%;
-  height: 32px;
-  padding: 0 8px;
+  height: var(--control-h);
+  padding: 0 var(--control-pad-x);
 }
 
 .modal-actions {
@@ -1518,7 +1576,7 @@
 
 .modal-actions .border-btn {
   min-width: 80px;
-  height: 32px;
+  height: var(--control-h);
   padding: 0 16px;
   font-weight: 400;
 }
@@ -1533,7 +1591,7 @@
   background: #000;
   color: #c0c0c0;
   font-family: var(--font-mono), "Courier New", monospace;
-  font-size: 14px;
+  font-size: var(--fs-body);
   line-height: 1.45;
   border-top: 1.75px solid var(--border-color-muted);
   border-left: 1.75px solid var(--border-color-muted);
@@ -1557,7 +1615,7 @@
 .llm-dos-header {
   margin-bottom: 12px;
   color: #aaa;
-  font-size: 13px;
+  font-size: var(--fs-caption);
 }
 
 .llm-dos-line {
@@ -1706,4 +1764,389 @@
   100% {
     opacity: 0;
   }
+}
+
+/* ════════════════════════════════════════════════════════════
+   react-datepicker → Win98 皮肤覆盖
+   仅靠作用域类名覆盖,不改动库源代码。
+   .win98-datepicker        → .react-datepicker 日历根(calendarClassName)
+   .win98-datepicker-popper → 弹层容器(popperClassName)
+   选择/选中色统一使用 --progress-fill(#000080),与进度条一致。
+   ════════════════════════════════════════════════════════════ */
+
+/* 输入框:复用 win98 内凹输入框样式 */
+.win98-app input.win98-datepicker-input {
+  height: var(--control-h);
+  width: auto;
+  padding: 0 var(--control-pad-x);
+}
+
+/* 弹层层级 + 去掉默认小箭头(win98 弹窗无箭头) */
+.react-datepicker-popper.win98-datepicker-popper {
+  z-index: 30;
+  line-height: initial;
+}
+
+.win98-datepicker-popper .react-datepicker__triangle {
+  display: none;
+}
+
+/* 弹层打开时,react-datepicker 会在输入框 wrapper 同级注入未定位的
+   .react-datepicker__tab-loop(聚焦陷阱)。若外层是带 gap 的 flex 容器,
+   它会成为额外 flex 子项,多撑出一份 gap、令字段高度在打开瞬间跳动。
+   让其脱离常规流即可消除(其内部弹层为 fixed 定位、哨兵为 0 尺寸,不受影响)。 */
+.win98-app .react-datepicker__tab-loop {
+  position: absolute;
+}
+
+/* 日历根:win98 凸起面板,方角 */
+.react-datepicker.win98-datepicker {
+  font-family: inherit;
+  /* 与输入框/正文统一(--fs-body)。日期/时间等弹层内容继承此值。 */
+  font-size: var(--fs-body);
+  color: var(--muted-foreground);
+  background: var(--primary);
+  border: none;
+  border-radius: 0;
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+  padding: 2px;
+}
+
+/* 头部(月份导航 / 时间标题):灰底方角,与面板一致 */
+.win98-datepicker .react-datepicker__header {
+  background: var(--primary);
+  border-bottom: 1.75px solid var(--border-color-muted);
+  border-radius: 0;
+  padding: 6px 0;
+}
+
+.win98-datepicker .react-datepicker__header--time {
+  border-bottom: none;
+}
+
+.win98-datepicker .react-datepicker__current-month,
+.win98-datepicker .react-datepicker-time__header,
+.win98-datepicker .react-datepicker-year-header {
+  color: var(--muted-foreground);
+  font-weight: 700;
+  font-size: var(--fs-body);
+}
+
+/* 星期名 / 日期 / 时间名:统一文字色 */
+.win98-datepicker .react-datepicker__day-name,
+.win98-datepicker .react-datepicker__day,
+.win98-datepicker .react-datepicker__time-name {
+  color: var(--muted-foreground);
+}
+
+/* 可点单元(日/月/季/年):方角 + 悬停灰 */
+.win98-datepicker .react-datepicker__day,
+.win98-datepicker .react-datepicker__month-text,
+.win98-datepicker .react-datepicker__quarter-text,
+.win98-datepicker .react-datepicker__year-text {
+  border-radius: 0;
+}
+
+.win98-datepicker .react-datepicker__day:not([aria-disabled="true"]):hover,
+.win98-datepicker .react-datepicker__month-text:not([aria-disabled="true"]):hover,
+.win98-datepicker .react-datepicker__quarter-text:not([aria-disabled="true"]):hover,
+.win98-datepicker .react-datepicker__year-text:not([aria-disabled="true"]):hover {
+  border-radius: 0;
+  background: var(--button-face);
+}
+
+.win98-datepicker .react-datepicker__day--today,
+.win98-datepicker .react-datepicker__month-text--today,
+.win98-datepicker .react-datepicker__year-text--today {
+  font-weight: 700;
+}
+
+/* 范围/选中 三级层次(参考库原设计,统一到 win98 海军蓝 --progress-fill):
+   1) 已确认:实心海军蓝(--selected / --in-range / 端点)
+   2) 拖拽预览:半透明海军蓝(--in-selecting-range,尚未提交)
+   3) 键盘聚焦候选:浅海军蓝 + 深字(--keyboard-selected,仅"将被选中") */
+
+/* 1) 已确认选中 / 范围主体 / 端点:实心海军蓝 */
+.win98-datepicker .react-datepicker__day--selected,
+.win98-datepicker .react-datepicker__day--in-range,
+.win98-datepicker .react-datepicker__day--range-start,
+.win98-datepicker .react-datepicker__day--range-end,
+.win98-datepicker .react-datepicker__month-text--selected,
+.win98-datepicker .react-datepicker__month-text--in-range,
+.win98-datepicker .react-datepicker__quarter-text--selected,
+.win98-datepicker .react-datepicker__year-text--selected,
+.win98-datepicker .react-datepicker__year-text--in-range {
+  border-radius: 0;
+  background: var(--progress-fill);
+  color: #fff;
+}
+
+.win98-datepicker .react-datepicker__day--selected:not([aria-disabled="true"]):hover,
+.win98-datepicker .react-datepicker__day--in-range:not([aria-disabled="true"]):hover,
+.win98-datepicker .react-datepicker__month-text--selected:not([aria-disabled="true"]):hover,
+.win98-datepicker .react-datepicker__month-text--in-range:not([aria-disabled="true"]):hover,
+.win98-datepicker .react-datepicker__quarter-text--selected:not([aria-disabled="true"]):hover,
+.win98-datepicker .react-datepicker__year-text--selected:not([aria-disabled="true"]):hover,
+.win98-datepicker .react-datepicker__year-text--in-range:not([aria-disabled="true"]):hover {
+  background: var(--progress-fill);
+  filter: brightness(1.3);
+}
+
+/* 2) 拖拽中的预览范围(尚未提交):介于海军蓝与浅蓝之间,用 --accent 实色,
+      比预览半透明更深、又区别于已确认的海军蓝 */
+.win98-datepicker .react-datepicker__day--in-selecting-range:not(.react-datepicker__day--in-range) {
+  border-radius: 0;
+  background: var(--accent);
+  color: #fff;
+}
+
+/* 3) 键盘聚焦候选:仅"按回车会选中",用浅海军蓝 + 深字,
+      明显区别于已确认/预览,避免未选中时看起来像已选中。
+      已是选中/范围/拖拽预览的格子不降级。 */
+.win98-datepicker
+  .react-datepicker__day--keyboard-selected:not(.react-datepicker__day--selected):not(.react-datepicker__day--in-range):not(.react-datepicker__day--in-selecting-range),
+.win98-datepicker
+  .react-datepicker__month-text--keyboard-selected:not(.react-datepicker__month-text--selected):not(.react-datepicker__month-text--in-range),
+.win98-datepicker
+  .react-datepicker__quarter-text--keyboard-selected:not(.react-datepicker__quarter-text--selected),
+.win98-datepicker
+  .react-datepicker__year-text--keyboard-selected:not(.react-datepicker__year-text--selected):not(.react-datepicker__year-text--in-range) {
+  border-radius: 0;
+  background: rgba(0, 0, 128, 0.2);
+  color: var(--muted-foreground);
+}
+
+.win98-datepicker
+  .react-datepicker__day--keyboard-selected:not(.react-datepicker__day--selected):not(.react-datepicker__day--in-range):not([aria-disabled="true"]):hover,
+.win98-datepicker
+  .react-datepicker__month-text--keyboard-selected:not(.react-datepicker__month-text--selected):not(.react-datepicker__month-text--in-range):not([aria-disabled="true"]):hover,
+.win98-datepicker
+  .react-datepicker__quarter-text--keyboard-selected:not(.react-datepicker__quarter-text--selected):not([aria-disabled="true"]):hover,
+.win98-datepicker
+  .react-datepicker__year-text--keyboard-selected:not(.react-datepicker__year-text--selected):not(.react-datepicker__year-text--in-range):not([aria-disabled="true"]):hover {
+  background: rgba(0, 0, 128, 0.35);
+  color: var(--muted-foreground);
+}
+
+/* ── 时间列:方角,选中深蓝 ── */
+.win98-datepicker .react-datepicker__time-container {
+  border-left: 1.75px solid var(--border-color-muted);
+}
+
+.win98-datepicker .react-datepicker__time,
+.win98-datepicker .react-datepicker__time .react-datepicker__time-box {
+  background: #fff;
+  border-radius: 0;
+}
+
+/* 纯时间选择器:库默认时间列仅 85px,扣掉 win98 加宽的 16px 竖向滚动条
+   与项内边距后,"10:00 PM" 这类文字放不下,既会触发横向滚动条又会被截断。
+   加宽列宽到 116px、列表盒撑满容器(消除右侧白边)、减小项内边距,
+   并改回 border-box、隐藏横向溢出兜底。
+   注意:这些选择器的优先级需高于库默认(库用了 3~4 层后代选择器),
+   因此显式带上 __time-container 链路,避免因 CSS 加载顺序而失效。 */
+.win98-datepicker .react-datepicker__time-container {
+  width: 116px;
+}
+
+.win98-datepicker
+  .react-datepicker__time-container
+  .react-datepicker__time
+  .react-datepicker__time-box {
+  width: 116px;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.win98-datepicker
+  .react-datepicker__time-container
+  .react-datepicker__time
+  .react-datepicker__time-box
+  ul.react-datepicker__time-list {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.win98-datepicker .react-datepicker__time-list-item {
+  border-radius: 0;
+  padding: 5px 4px;
+}
+
+.win98-datepicker .react-datepicker__time-list-item:hover {
+  background: var(--button-face) !important;
+}
+
+.win98-datepicker .react-datepicker__time-list-item--selected {
+  background: var(--progress-fill) !important;
+  color: #fff !important;
+  font-weight: 700;
+}
+
+.win98-datepicker .react-datepicker__time-list-item--selected:hover {
+  background: var(--progress-fill) !important;
+  filter: brightness(1.3);
+}
+
+.win98-datepicker .react-datepicker__time-list-item--disabled {
+  color: var(--border-color-muted);
+}
+
+/* 导航箭头:加深可见度 */
+.win98-datepicker .react-datepicker__navigation-icon::before {
+  border-color: var(--muted-foreground);
+}
+
+.win98-datepicker .react-datepicker__navigation:hover *::before {
+  border-color: #000;
+}
+
+/* 时间列加宽到 116px 后,日期+时间模式下"下一月"箭头需同步避让 */
+.win98-datepicker
+  .react-datepicker__navigation--next--with-time:not(
+    .react-datepicker__navigation--next--with-today-button
+  ) {
+  right: 116px;
+}
+
+/* 月/年原生下拉(dropdownMode="select"):方角 */
+.win98-datepicker .react-datepicker__month-select,
+.win98-datepicker .react-datepicker__year-select,
+.win98-datepicker .react-datepicker__month-year-select {
+  font: inherit;
+  border-radius: 0;
+  border: 1.75px solid var(--border-color-muted);
+  background: #fff;
+  color: var(--muted-foreground);
+}
+
+/* 月/年滚动下拉面板:win98 凸起面板 */
+.win98-datepicker .react-datepicker__year-dropdown,
+.win98-datepicker .react-datepicker__month-dropdown,
+.win98-datepicker .react-datepicker__month-year-dropdown {
+  background: var(--primary);
+  border: none;
+  border-radius: 0;
+  box-shadow: var(--border-raised-outer), var(--border-raised-inner);
+}
+
+.win98-datepicker .react-datepicker__year-option:hover,
+.win98-datepicker .react-datepicker__month-option:hover,
+.win98-datepicker .react-datepicker__month-year-option:hover {
+  background: var(--progress-fill);
+  color: #fff;
+}
+
+.win98-datepicker .react-datepicker__year-option--selected_year,
+.win98-datepicker .react-datepicker__month-option--selected_month {
+  font-weight: 700;
+}
+
+/* 内联时间输入(showTimeInput) */
+.win98-datepicker .react-datepicker-time__input input {
+  font: inherit;
+  border-radius: 0;
+  border: 1.75px solid var(--border-color-muted);
+  background: #fff;
+  color: var(--muted-foreground);
+  padding: 2px 4px;
+}
+
+/* 今天按钮 */
+.win98-datepicker .react-datepicker__today-button {
+  background: var(--primary);
+  border-top: 1.75px solid var(--border-color-muted);
+  border-radius: 0;
+  color: var(--muted-foreground);
+}
+
+/* 清除按钮(isClearable):方块深蓝 */
+/* 清除按钮:参考下拉框清除按钮(.select-box-clear.border-btn)——
+   win98 凸起小方块 + ✕,替换库默认的圆形叉。 */
+.win98-app .react-datepicker__close-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  top: 50%;
+  right: 4px;
+  transform: translateY(-50%);
+  padding: 0;
+  background: var(--primary);
+  border-top: 1.75px solid var(--box-shadow-light);
+  border-left: 1.75px solid var(--box-shadow-light);
+  border-right: 1.75px solid var(--border-color-dark);
+  border-bottom: 1.75px solid var(--border-color-dark);
+  box-shadow:
+    inset 0 1.75px 0 0 var(--border-color-light),
+    inset -1.75px 0 0 0 var(--box-shadow-muted),
+    inset 0 -1.75px 0 0 var(--box-shadow-muted),
+    inset 1.75px 0 0 0 var(--border-color-light);
+}
+
+.win98-app .react-datepicker__close-icon:hover {
+  background: #c5c6c5;
+}
+
+.win98-app .react-datepicker__close-icon:active {
+  border-top: 1.75px solid var(--border-color-dark);
+  border-left: 1.75px solid var(--border-color-dark);
+  border-right: 1.75px solid var(--box-shadow-light);
+  border-bottom: 1.75px solid var(--box-shadow-light);
+  box-shadow:
+    inset 0 1.75px 0 0 var(--box-shadow-muted),
+    inset -1.75px 0 0 0 var(--border-color-light),
+    inset 0 -1.75px 0 0 var(--border-color-light),
+    inset 1.75px 0 0 0 var(--box-shadow-muted);
+}
+
+.win98-app .react-datepicker__close-icon::after {
+  content: "✕";
+  display: block;
+  width: auto;
+  height: auto;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  color: var(--muted-foreground);
+  font-family: inherit;
+  /* 库默认 ✕ 以 ::after 伪元素绘制,且字形多由不支持合成加粗的回退字体提供,
+     改 font-weight 无效;直接用 text-stroke 给字形描边加粗,
+     使其与下拉清除按钮(真实文字节点)的 ✕ 笔画粗细一致。 */
+  font-size: var(--fs-micro);
+  line-height: 1;
+  -webkit-text-stroke: 0.5px var(--muted-foreground);
+}
+
+/* Playground 演示布局 */
+.datepicker-demo-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.datepicker-demo-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* 仅标签文字用小字号;不要设在字段上,否则输入框经 font:inherit 继承后
+   "选择出来的值"也会变小,与其它输入框/弹层(16px)不一致。 */
+.datepicker-demo-field > span {
+  color: var(--muted-foreground);
+  font-size: var(--fs-caption);
+}
+
+/* 周数列 */
+.win98-datepicker .react-datepicker__week-number {
+  color: var(--border-color-muted);
+}
+
+.win98-datepicker .react-datepicker__week-number--selected {
+  border-radius: 0;
+  background: var(--progress-fill);
+  color: #fff;
 }

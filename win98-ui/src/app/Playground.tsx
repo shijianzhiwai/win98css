@@ -5,6 +5,7 @@ import {
   Win98Badge,
   Win98Button,
   Win98Checkbox,
+  Win98DatePicker,
   Win98Desktop,
   Win98Dialog,
   Win98FieldRow,
@@ -82,6 +83,12 @@ export function Playground() {
   const [tablePage, setTablePage] = useState(1);
   const [osChoice, setOsChoice] = useState("linux");
   const [installProgress] = useState(45);
+  const [dateValue, setDateValue] = useState<Date | null>(new Date());
+  const [timeValue, setTimeValue] = useState<Date | null>(new Date());
+  const [dateTimeValue, setDateTimeValue] = useState<Date | null>(new Date());
+  const [rangeStart, setRangeStart] = useState<Date | null>(new Date());
+  const [rangeEnd, setRangeEnd] = useState<Date | null>(null);
+  const [monthValue, setMonthValue] = useState<Date | null>(new Date());
   const [llmMessages, setLlmMessages] = useState<Win98LlmMessage[]>([
     { id: "llm-u-1", role: "user", content: "介绍一下这个组件库。" },
     { id: "llm-a-1", role: "assistant", content: LLM_DEMO_REPLY },
@@ -143,6 +150,7 @@ export function Playground() {
               <Win98Button className="btn-md">默认</Win98Button>
               <Win98Button variant="md">中等</Win98Button>
               <Win98Button variant="md" className="btn-send-demo">强调</Win98Button>
+              <Win98Button variant="link">简约</Win98Button>
               <Win98Button variant="sm" title="工具栏">🔍</Win98Button>
             </div>
           </Win98GroupBox>
@@ -153,7 +161,7 @@ export function Playground() {
               <Win98Button variant="toolbar" title="搜索">🔍</Win98Button>
               <Win98Button variant="sm" title="文件夹">📁</Win98Button>
             </div>
-            <Win98FieldRow style={{ marginTop: 8, fontSize: 12, color: "var(--border-color-muted)" }}>
+            <Win98FieldRow style={{ marginTop: 8, fontSize: "var(--fs-caption)", color: "var(--border-color-muted)" }}>
               下拉框内置 ▲▼ · 清除 ✕ · 对话框标题栏 ✕
             </Win98FieldRow>
           </Win98GroupBox>
@@ -163,6 +171,75 @@ export function Playground() {
               value={selected}
               onValueChange={setSelected}
             />
+          </Win98GroupBox>
+          <Win98GroupBox label="日期时间选择">
+            <div className="datepicker-demo-grid">
+              <div className="datepicker-demo-field">
+                <span>日期(可清除/年月下拉)</span>
+                <Win98DatePicker
+                  selected={dateValue}
+                  onChange={setDateValue}
+                  dateFormat="yyyy-MM-dd"
+                  showYearDropdown
+                  showMonthDropdown
+                  dropdownMode="select"
+                  isClearable
+                  placeholderText="选择日期"
+                />
+              </div>
+              <div className="datepicker-demo-field">
+                <span>时间(15 分钟间隔)</span>
+                <Win98DatePicker
+                  selected={timeValue}
+                  onChange={setTimeValue}
+                  showTimeSelect
+                  showTimeSelectOnly
+                  timeIntervals={15}
+                  timeCaption="时间"
+                  dateFormat="HH:mm"
+                  placeholderText="选择时间"
+                />
+              </div>
+              <div className="datepicker-demo-field">
+                <span>日期 + 时间</span>
+                <Win98DatePicker
+                  selected={dateTimeValue}
+                  onChange={setDateTimeValue}
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={30}
+                  timeCaption="时间"
+                  dateFormat="yyyy-MM-dd HH:mm"
+                  placeholderText="选择日期时间"
+                />
+              </div>
+              <div className="datepicker-demo-field">
+                <span>日期范围</span>
+                <Win98DatePicker
+                  selectsRange
+                  startDate={rangeStart}
+                  endDate={rangeEnd}
+                  onChange={(dates) => {
+                    const [start, end] = dates;
+                    setRangeStart(start);
+                    setRangeEnd(end);
+                  }}
+                  dateFormat="yyyy-MM-dd"
+                  isClearable
+                  placeholderText="开始 — 结束"
+                />
+              </div>
+              <div className="datepicker-demo-field">
+                <span>月份选择</span>
+                <Win98DatePicker
+                  selected={monthValue}
+                  onChange={setMonthValue}
+                  showMonthYearPicker
+                  dateFormat="yyyy-MM"
+                  placeholderText="选择月份"
+                />
+              </div>
+            </div>
           </Win98GroupBox>
         </Win98Window>
 
