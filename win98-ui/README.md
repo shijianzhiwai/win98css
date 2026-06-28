@@ -18,6 +18,7 @@
 | `Win98Window` | 窗口（标题栏 + 内容区） |
 | `Win98GroupBox` | 分组框（`fieldset` + `legend`） |
 | `Win98Select` | 可搜索下拉 |
+| `Win98Form` / `Win98FormField` / `Win98FormActions` + `useWin98Form` | 表单容器与校验：声明式必填 / 格式 / 范围规则，内联红框报错，校验未通过时禁止提交 |
 | `Win98Dialog` | 模态对话框 |
 | `Win98Table` / `Win98TableWrap` / `Win98TableHeaderCell` | 表格 |
 | `Win98TablePagination` | 表格分页（« ‹ › » + 页码信息） |

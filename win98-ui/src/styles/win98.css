@@ -25,6 +25,7 @@
   --progress-fill: #000080;
 
   /* ── 排版规范 token(单一事实来源)── */
+  --fs-stat: 22px;    /* 仪表盘 KPI 数字 */
   --fs-title: 16px;   /* 窗口标题栏 / 顶栏 logo / 对话框标题 */
   --fs-body: 14px;    /* 基准:正文/说明、输入框、按钮、控件标签、表格、下拉选项 */
   --fs-caption: 12px; /* 次要:分页状态、徽章、字段标签、DOS header、辅助说明 */
@@ -458,6 +459,299 @@
   background-image: url("/icons/98css/button-right.svg");
 }
 
+/* ── admin shell（管理后台布局壳）── */
+
+.admin-shell {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.admin-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 6px 8px;
+}
+
+.admin-toolbar-sep {
+  width: 1.75px;
+  align-self: stretch;
+  margin: 2px 2px;
+  background: var(--box-shadow-muted);
+  box-shadow: 1px 0 0 var(--box-shadow-light);
+}
+
+.admin-breadcrumb {
+  margin-left: auto;
+  font-size: var(--fs-caption);
+  color: var(--muted-foreground);
+}
+
+.admin-stat-grid {
+  display: grid;
+  /* 固定 2 列（窄屏 2x2），宽屏切 4 列（1x4）——始终成整行，避免 3+1 错乱 */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (min-width: 1100px) {
+  .admin-stat-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.admin-stat {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  /* 平面凸起 3D 边框（不带窗口级柔和投影，贴合 Win98） */
+  background: var(--card);
+  border-top: 1.75px solid var(--border-color-light);
+  border-left: 1.75px solid var(--border-color-light);
+  border-right: 1.75px solid var(--border-color-dark);
+  border-bottom: 1.75px solid var(--border-color-dark);
+  box-shadow:
+    inset 0 1.75px 0 0 var(--box-shadow-light),
+    inset -1.75px 0 0 0 var(--box-shadow-muted),
+    inset 0 -1.75px 0 0 var(--box-shadow-muted),
+    inset 1.75px 0 0 0 var(--box-shadow-light);
+}
+
+.admin-stat-label {
+  font-size: var(--fs-caption);
+  color: var(--muted-foreground);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.admin-stat-value {
+  font-size: var(--fs-stat);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.admin-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  margin-bottom: 10px;
+  background: #fff;
+  color: var(--muted-foreground);
+  font-size: var(--fs-body);
+}
+
+.admin-banner-prefix {
+  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* 横幅在浅色背景上，覆盖打字机光标为深色，避免不可见 */
+.admin-banner .llm-dos-cursor {
+  background: var(--muted-foreground);
+}
+
+/* 仪表盘下半部分内容网格：自适应铺满整宽，与上方窗口左右对齐 */
+.admin-content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+/* 表单底部操作按钮：统一宽度、右对齐，避免一小一大的错乱 */
+.admin-form-status {
+  margin-right: auto;
+  color: var(--progress-fill);
+  font-size: var(--fs-caption);
+}
+
+.admin-action-btn.border-btn {
+  min-width: 96px;
+  height: var(--control-h);
+  padding: 0 16px;
+}
+
+.admin-action-btn-primary.border-btn {
+  font-weight: 600;
+}
+
+.status-bar {
+  display: flex;
+  align-items: stretch;
+  gap: 3px;
+  padding: 3px;
+  margin-top: auto;
+}
+
+.status-bar-field {
+  padding: 2px 8px;
+  font-size: var(--fs-caption);
+  color: var(--muted-foreground);
+  white-space: nowrap;
+  /* 每格独立凹陷格，贴近 Win98 状态栏 */
+  border-top: 1px solid var(--box-shadow-muted);
+  border-left: 1px solid var(--box-shadow-muted);
+  border-right: 1px solid var(--box-shadow-light);
+  border-bottom: 1px solid var(--box-shadow-light);
+}
+
+.status-bar-field.is-grow {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+  .admin-shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── menu（侧边栏导航菜单）── */
+
+.menu {
+  padding: 4px;
+  font-size: var(--fs-body);
+}
+
+.menu-title {
+  background: var(--accent);
+  color: #fff;
+  padding: 4px 8px;
+  margin-bottom: 4px;
+  font-size: var(--fs-title);
+  font-weight: 400;
+}
+
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+}
+
+.menu-group + .menu-group {
+  margin-top: 2px;
+}
+
+.menu-group-title {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  color: var(--muted-foreground);
+  padding: 4px 6px;
+  text-align: left;
+}
+
+.menu-group-caret {
+  width: 12px;
+  display: inline-flex;
+  justify-content: center;
+  font-size: var(--fs-affix);
+}
+
+.menu-group-items {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 2px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  background: transparent;
+  border: 1px dotted transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--fs-body);
+  color: var(--muted-foreground);
+  padding: 4px 8px 4px 18px;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.menu-item:hover:not(:disabled) {
+  background: rgba(80, 91, 191, 0.12);
+}
+
+.menu-item:focus-visible {
+  outline: none;
+  border: 1px dotted var(--muted-foreground);
+}
+
+.menu-item.is-active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.menu-item.is-active:hover {
+  background: var(--accent);
+}
+
+.menu-item:disabled {
+  color: var(--border-color-muted);
+  cursor: not-allowed;
+  text-shadow: 1px 1px #fff;
+}
+
+.menu-item-icon {
+  width: 16px;
+  display: inline-flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.menu-item-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menu-item-badge {
+  flex-shrink: 0;
+  min-width: 18px;
+  text-align: center;
+  padding: 0 5px;
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.menu-item.is-active .menu-item-badge {
+  background: #fff;
+  color: var(--accent);
+}
+
 /* ── table ── */
 
 .table-wrap {
@@ -688,6 +982,7 @@
 .cell-check {
   display: flex;
   align-items: center;
+  justify-content: center;
   height: 100%;
 }
 
@@ -829,6 +1124,44 @@
 
 .field-row-stacked > * + * {
   margin-top: 6px;
+}
+
+/* ── form（表单容器与校验报错） ── */
+
+.win98-form-field + .win98-form-field {
+  margin-top: 10px;
+}
+
+.win98-form-label {
+  font-size: var(--fs-body);
+  font-weight: 400;
+  user-select: none;
+}
+
+.win98-form-required {
+  color: var(--destructive);
+  font-weight: 700;
+}
+
+.win98-form-hint {
+  font-size: var(--fs-caption);
+  color: var(--border-color-muted);
+}
+
+.win98-form-error {
+  font-size: var(--fs-caption);
+  color: var(--destructive);
+  font-weight: 600;
+}
+
+.win98-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color-muted);
 }
 
 /* 带文字标签的 Checkbox */
